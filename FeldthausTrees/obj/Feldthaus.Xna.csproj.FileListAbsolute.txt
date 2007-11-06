@@ -1,0 +1,5 @@
+C:\Documents and Settings\Asger\My Documents\Visual Studio 2005\Projects\TreeDemo\FeldthausTrees\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Asger\My Documents\Visual Studio 2005\Projects\TreeDemo\FeldthausTrees\bin\x86\Debug\FeldthausTrees.dll
+C:\Documents and Settings\Asger\My Documents\Visual Studio 2005\Projects\TreeDemo\FeldthausTrees\bin\x86\Debug\FeldthausTrees.pdb
+C:\Documents and Settings\Asger\My Documents\Visual Studio 2005\Projects\TreeDemo\FeldthausTrees\obj\x86\Debug\FeldthausTrees.dll
+C:\Documents and Settings\Asger\My Documents\Visual Studio 2005\Projects\TreeDemo\FeldthausTrees\obj\x86\Debug\FeldthausTrees.pdb
