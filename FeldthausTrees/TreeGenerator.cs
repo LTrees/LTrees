@@ -23,6 +23,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using System.Collections;
 using Microsoft.Xna.Framework.Graphics;
+using System.Globalization;
 
 namespace Feldthaus.Xna
 {
@@ -224,6 +225,8 @@ namespace Feldthaus.Xna
         BasicEffect trunkEffect;
         Texture leafTexture;
 
+        private static readonly NumberFormatInfo numberFormat = new NumberFormatInfo();
+
         #endregion
         #region Properties
         /// <summary>
@@ -336,7 +339,7 @@ namespace Feldthaus.Xna
             if (attr == null)
                 return false;
 
-            value.Assign(float.Parse(attr.Value));
+            value.Assign(float.Parse(attr.Value, numberFormat));
 
             return true;
         }
@@ -349,7 +352,7 @@ namespace Feldthaus.Xna
             if (attr == null)
                 return false;
 
-            value.Assign(int.Parse(attr.Value));
+            value.Assign(int.Parse(attr.Value, numberFormat));
 
             return true;
         }
@@ -363,7 +366,7 @@ namespace Feldthaus.Xna
             XmlNode attr = node.Attributes.GetNamedItem("value");
             if (attr != null)
             {
-                value.min = value.max = float.Parse(attr.Value);
+                value.min = value.max = float.Parse(attr.Value, numberFormat);
                 value.isFixedValue = true;
                 return true;
             }
@@ -373,7 +376,7 @@ namespace Feldthaus.Xna
             if (attr != null)
             {
                 value.isFixedValue = false;
-                value.min = float.Parse(attr.Value);
+                value.min = float.Parse(attr.Value, numberFormat);
             }
 
             // See if the maximum is specified.
@@ -381,7 +384,7 @@ namespace Feldthaus.Xna
             if (attr != null)
             {
                 value.isFixedValue = false;
-                value.max = float.Parse(attr.Value);
+                value.max = float.Parse(attr.Value, numberFormat);
             }
 
             return true;
@@ -395,7 +398,7 @@ namespace Feldthaus.Xna
             XmlNode attr = node.Attributes.GetNamedItem("value");
             if (attr != null)
             {
-                value.min = value.max = int.Parse(attr.Value);
+                value.min = value.max = int.Parse(attr.Value, numberFormat);
                 value.isFixedValue = true;
                 return true;
             }
@@ -405,7 +408,7 @@ namespace Feldthaus.Xna
             if (attr != null)
             {
                 value.isFixedValue = false;
-                value.min = int.Parse(attr.Value);
+                value.min = int.Parse(attr.Value, numberFormat);
             }
 
             // See if the maximum is specified.
@@ -413,7 +416,7 @@ namespace Feldthaus.Xna
             if (attr != null)
             {
                 value.isFixedValue = false;
-                value.max = int.Parse(attr.Value);
+                value.max = int.Parse(attr.Value, numberFormat);
             }
 
             return true;
@@ -447,7 +450,7 @@ namespace Feldthaus.Xna
                 return 0f;
 
             // Parse the string we read.
-            return float.Parse(buffer);
+            return float.Parse(buffer, numberFormat);
         }
 
         private bool AssignVec3(XmlNode node, ref Vector3 value)
@@ -481,7 +484,7 @@ namespace Feldthaus.Xna
             if (attr == null)
                 return defaultValue;
 
-            return int.Parse(attr.Value);
+            return int.Parse(attr.Value, numberFormat);
         }
 
         private void LoadXmlBranch(XmlNode node)
