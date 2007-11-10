@@ -254,7 +254,7 @@ namespace Feldthaus.Xna
 
             // Remember if ZWrite was enabled.
             bool wasZWriteEnabled = device.RenderState.DepthBufferWriteEnable;
-            
+
             // Get the number of particles to draw
             int numParticles = cloud.NumberOfParticles;
 
@@ -279,9 +279,13 @@ namespace Feldthaus.Xna
                 projectionParam.SetValue(projection);
                 obsoleteProjection = false;
             }
+            Matrix worldView = world * view;
             worldParam.SetValue(world);
-            worldViewParam.SetValue(world * view);
+            worldViewParam.SetValue(worldView);
             textureParam.SetValue(cloud.Texture);
+
+            Vector3 right = Vector3.Right;
+            Vector3 up = Vector3.Up;
 
             // Are the particle billboards axis-aligned?
             if (cloud.AxisEnabled)
@@ -290,28 +294,31 @@ namespace Feldthaus.Xna
                 // inverted, so we cannot use view.Forward.
                 Vector3 forward = new Vector3(view.M13, view.M23, view.M33);
 
-                Vector3 right = Vector3.Cross(forward, cloud.Axis);
+                right = Vector3.Cross(forward, cloud.Axis);
                 right.Normalize();
-                Vector3 up = cloud.Axis;
+                up = cloud.Axis;
 
                 Vector3.TransformNormal(ref right, ref view, out right);
                 Vector3.TransformNormal(ref up, ref view, out up);
+            }
 
-                billboardRightParam.SetValue(right);
-                billboardUpParam.SetValue(up);
-            }
-            else
-            {
-                billboardRightParam.SetValue(Vector3.Right);
-                billboardUpParam.SetValue(Vector3.Up);
-            }
+            // Scale the right and up vectors according to the X-scale of the WorldView matrix
+            // Billboards cannot be scaled non-uniformly, so we have to assume that it is a uniform scale
+            float sizeScale = worldView.Right.Length();
+            right = right * sizeScale;
+            up = up * sizeScale;
+
+            // Sends the vectors to the shader
+            billboardRightParam.SetValue(right);
+            billboardUpParam.SetValue(up);
+
 
             // Start rendering the particles
-            particleEffect.Begin();            
+            particleEffect.Begin();
             for (int i = 0; i < particleEffect.CurrentTechnique.Passes.Count; i++)
             {
                 EffectPass pass = particleEffect.CurrentTechnique.Passes[i];
-                
+
                 for (int renderN = 0; renderN < numRenders; renderN++)
                 {
                     // Calculate the number of particles to render in this render call

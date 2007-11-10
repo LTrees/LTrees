@@ -89,6 +89,8 @@ namespace TreeDemo
         int numFramesRendered;
         int timeFrames;
         int currentFps;
+
+        bool scaleEnabled = false;
         
         public TreeDemo()
         {
@@ -259,6 +261,16 @@ namespace TreeDemo
                 seed = random.Next();
                 GenerateTree();
             }
+
+            // Toggle scale
+            if (keyboardState.IsKeyDown(Keys.X) && !lastKeyboardState.IsKeyDown(Keys.X))
+            {
+                scaleEnabled = !scaleEnabled;
+                if (scaleEnabled)
+                    treeTransform = Matrix.CreateScale(2.0f);
+                else
+                    treeTransform = Matrix.Identity;
+            }
             
             // Update camera position
             camera.SetThirdPersonView(orbit, pitch, cameraDistance);
@@ -299,6 +311,7 @@ namespace TreeDemo
             textBatch.DrawString(font, "Q, W - Change tree profile", new Vector2(40, 480), Color.PapayaWhip);
             textBatch.DrawString(font, "S - Toggle sorted leaves " + (tree.Leaves.SortingEnabled? "(ON)":"(OFF)"), new Vector2(40, 500), Color.PapayaWhip);
             textBatch.DrawString(font, "D - New seed", new Vector2(40, 520), Color.PapayaWhip);
+            textBatch.DrawString(font, "X - Toggle scale", new Vector2(40, 540), Color.PapayaWhip);
             textBatch.DrawString(font, "FPS: " + currentFps, new Vector2(500, 40), Color.PapayaWhip);
             textBatch.End();
 
