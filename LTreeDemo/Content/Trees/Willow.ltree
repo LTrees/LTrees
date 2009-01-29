@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tree>
+    <TrunkTexture>Textures/GrayBark</TrunkTexture>
+    <LeafTexture>Textures/WillowLeaf</LeafTexture>
+    
+	<Root ref="root" />
+	<Levels value="5" />
+    <BoneLevels value="5"/>
+    <LeafAxis value="0,1,0"/>
+    
+    <ConstrainUnderground lowerBound="700" />
+    <TextureHeight height="512" variation="64" />
+    
+	<Production id="root">
+        <Twist />
+        <Pitch angle="0" variation="3" />
+        <Call ref="bottom-trunk" delta="0"/>
+    </Production>
+    
+    <Production id="bottom-trunk">
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Bone />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Forward distance="128" variation="16" radius="0.92" />
+        <Pitch angle="3" variation="3" />
+        <Bone />
+        <Call ref="trunk"/>
+    </Production>
+    
+    <Production id="trunk">
+        <Forward distance="128" variation="16" />
+        <Pitch angle="1" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="1" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="1" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="1" variation="3" />
+        <Bone />
+        <Call ref="split" delta="0"/>
+        <Call ref="trunk"/>
+        <Call ref="leaf" delta="0"/>
+    </Production>
+    
+    <Production id="split">
+        <Child>
+            <Twist />
+            <Child>
+                <Pitch angle="30" variation="10" />
+                <Call ref="branch" />
+            </Child>
+            <Twist angle="180" variation="90"/>
+            <Child>
+                <Pitch angle="30" variation="10" />
+                <Call ref="branch" />
+            </Child>
+        </Child>
+    </Production>
+    <Production id="split">
+        <Child>
+            <Twist />
+            <Child>
+                <Pitch angle="30" variation="10" />
+                <Call ref="branch" />
+            </Child>
+            <Twist angle="120" variation="30"/>
+            <Child>
+                <Pitch angle="30" variation="10" />
+                <Call ref="branch" />
+            </Child>
+            <Twist angle="120" variation="30"/>
+            <Child>
+                <Pitch angle="30" variation="10" />
+                <Call ref="branch" />
+            </Child>
+        </Child>
+    </Production>
+    
+    <Production id="branch">
+        <Align />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="-10" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="-10" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="-10" variation="3" />
+        <Forward distance="128" variation="16" />
+        <Pitch angle="-10" variation="3" />
+        <Bone />
+        <Call ref="split" delta="0"/>
+        <Call ref="leaf" delta="0"/>
+    </Production>
+    
+    <Production id="leaf">
+		<Leaf>
+            <Color value="100,120,100" variation="30,0,0"/>
+            <Size value="200,600" variation="20,0" />
+            <AxisOffset value="-300"/>
+        </Leaf>
+    </Production>
+</Tree>

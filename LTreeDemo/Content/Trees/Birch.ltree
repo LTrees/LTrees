@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tree>
+    <TrunkTexture>Textures/BirchBark</TrunkTexture>
+    <LeafTexture>Textures/BirchLeaf</LeafTexture>
+    
+    <Root ref="root" />
+	<Levels value="4" />
+    
+    <ConstrainUnderground lowerBound="256" />
+    <TextureHeight height="512" variation="64" />
+    
+	<Production id="root">
+		<Twist />
+		<Pitch angle="0" variation="2" />
+		<Forward distance="300" variation="30" radius="0.80" />
+		<Pitch angle="0" variation="2" />
+		<Forward distance="300" variation="30" radius="0.80" />
+		<Pitch angle="0" variation="2" />
+		<Forward distance="300" variation="30" radius="0.80" />
+		<Pitch angle="0" variation="2" />
+		<Forward distance="300" variation="30" radius="0.80" />
+		<Pitch angle="0" variation="2" />
+		<Call ref="trunk" delta="0"/>
+	</Production>
+    
+    <!-- Straight move -->
+	<Production id="trunk">
+		<Twist angle="10" variation="5" />
+		<Pitch angle="0" variation="5" />
+		<Forward distance="220" variation="16" radius="0.86" />
+        <Bone />
+        
+        <Call ref="trunk-branches"/>
+        
+		<Twist angle="10" variation="5" />
+		<Pitch angle="0" variation="5" />
+		<Forward distance="220" variation="16" radius="0.86"  />
+        
+        <Call ref="trunk-branches"/>
+        
+		<Twist angle="10" variation="5" />
+		<Pitch angle="0" variation="5" />
+		<Forward distance="220" variation="16" radius="0.86"  />
+        
+        <Call ref="trunk-branches"/>
+        
+        <RequireLevel level="2">
+            <Call ref="trunk" />
+        </RequireLevel>
+        <RequireLevel level="1" type="less">
+            <Call ref="branch-split" delta="0"/>
+        </RequireLevel>
+    </Production>
+    
+    <Production id="trunk-end">
+        <Forward distance="128" variation="12" />
+        <Leaf>
+            <Color value="150,220,160" variation="30,0,0"/>
+            <Size value="200,200" variation="30,30" />
+        </Leaf>
+    </Production>
+    
+    <!-- Spawns two branches at the segment just added -->
+    <Production id="trunk-branches">
+        <Child>
+            <Twist />
+            <Child>
+                <Backward distance="128" variation="128"/>
+                <Pitch angle="90" variation="10" />
+                <ScaleRadius scale="0.3"/>
+                <Call ref="branch" delta="0" />
+            </Child>
+            
+            <Twist angle="180" variation="90" />
+            
+            <Child>
+                <Backward distance="128" variation="128"/>
+                <Pitch angle="90" variation="10" />
+                <ScaleRadius scale="0.3"/>
+                <Call ref="branch" delta="0" />
+            </Child>
+            
+        </Child>
+    </Production>
+    
+    
+    <!-- Spawns three branches at the segment just added -->
+    <Production id="trunk-branches">
+        <Child>
+            <Twist />
+            
+            <Child>
+                <Backward distance="128" variation="128"/>
+                <Pitch angle="90" variation="10" />
+                <ScaleRadius scale="0.3"/>
+                <Call ref="branch" delta="-1" />
+            </Child>
+            
+            <Twist angle="120" variation="30" />
+            
+            <Child>
+                <Backward distance="128" variation="128"/>
+                <Pitch angle="90" variation="10" />
+                <ScaleRadius scale="0.3"/>
+                <Call ref="branch" delta="-2" />
+            </Child>
+            
+            <Twist angle="120" variation="30" />
+            
+            <Child>
+                <Backward distance="128" variation="128"/>
+                <Pitch angle="90" variation="10" />
+                <ScaleRadius scale="0.3"/>
+                <Call ref="branch" delta="-1" />
+            </Child>
+            
+        </Child>
+    </Production>
+    
+    <!-- Grows a side branch, curbing upwards -->
+    <Production id="branch">
+        <Align />
+        <Forward distance="150" variation="32" radius="0.86"/>
+        <Pitch angle="5" variation="3" />
+        <Forward distance="150" variation="32" radius="0.86"/>
+        <Pitch angle="5" variation="3" />
+        <Call ref="branch-split" delta="0" />
+    </Production>
+    
+    <!-- Grows a branch while spawning new side-branches -->
+    <Production id="branch-split">
+        <Twist />
+        <Scale scale="0.8" />
+        <Child>
+            <Pitch angle="20" variation="20" />
+            <Call ref="branch" delta="-1"/>
+        </Child>
+        <Twist angle="180" variation="90" />
+        <Child>
+            <Pitch angle="20" variation="10" />
+            <Call ref="branch" delta="-1"/>
+        </Child>
+        <Leaf>
+            <Color value="150,220,160" variation="30,0,0"/>
+            <Size value="256,256" variation="64,64" />
+        </Leaf>
+    </Production>
+    
+    
+</Tree>
