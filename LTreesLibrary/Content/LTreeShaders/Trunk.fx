@@ -97,8 +97,6 @@ technique Technique1
 {
     pass Pass1
     {
-        // TODO: set renderstates here.
-
         VertexShader = compile vs_1_1 VertexShaderFunction();
 		PixelShader = compile ps_1_1 PixelShaderFunction();
     }

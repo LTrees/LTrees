@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace LTreeDemo
 {
@@ -49,6 +50,7 @@ namespace LTreeDemo
             xnaControl.EnableTrunk = branchesBox.Checked;
             xnaControl.EnableWind = windBox.Checked;
             xnaControl.EnableBones = bonesBox.Checked;
+            xnaControl.EnableGround = groundBox.Checked;
         }
 
         private void seedBox_ValueChanged(object sender, EventArgs e)
@@ -68,6 +70,35 @@ namespace LTreeDemo
             polygonsLabel.Text = "" + xnaControl.Tree.TrunkMesh.NumberOfTriangles;
             leavesLabel.Text = "" + xnaControl.Tree.Skeleton.Leaves.Count;
             bonesLabel.Text = "" + xnaControl.Tree.Skeleton.Bones.Count;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Image files (*.png, *.jpg, *.bmp, *.tga)|*.png;*.jpg;*.bmp;*.tga|All files (*.*)|*.*";
+            DialogResult result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                xnaControl.SaveTreeImage(dialog.FileName, GetImageFileFormatFromFilename(dialog.FileName));
+            }
+        }
+
+        private ImageFileFormat GetImageFileFormatFromFilename(string filename)
+        {
+            String ext = filename.Substring(filename.LastIndexOf(".")).ToLowerInvariant();
+            switch (ext)
+            {
+                case ".png":
+                    return ImageFileFormat.Png;
+                case ".jpg":
+                    return ImageFileFormat.Jpg;
+                case ".bmp":
+                    return ImageFileFormat.Bmp;
+                case ".tga":
+                    return ImageFileFormat.Tga;
+                default:
+                    return ImageFileFormat.Png; // Just use this as default
+            }
         }
 
     }

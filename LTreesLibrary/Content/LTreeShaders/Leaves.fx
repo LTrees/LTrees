@@ -94,11 +94,11 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     return float4(input.Color * tex2D(TextureSampler, input.TextureCoordinate).rgb, tex2Dbias(TextureSampler, float4(input.TextureCoordinate.xy, 1, -1)).a);
 }
 
-technique Technique1
+technique Standard
 {
     pass Opaque
     {
-        VertexShader = compile vs_1_1 VertexShaderFunction();
+        VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction();
         
         AlphaBlendEnable = false;
@@ -114,7 +114,7 @@ technique Technique1
     }
     pass BlendedEdges
     {
-        VertexShader = compile vs_1_1 VertexShaderFunction();
+        VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction();
         
         AlphaBlendEnable = true;
@@ -130,4 +130,12 @@ technique Technique1
 
         CullMode = None;
     }
+}
+technique SetNoRenderStates
+{
+	pass Pass1
+	{
+        VertexShader = compile vs_3_0 VertexShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
+	}
 }

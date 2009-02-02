@@ -29,7 +29,18 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.bonesLabel = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.leavesLabel = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.polygonsLabel = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.verticesLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groundBox = new System.Windows.Forms.CheckBox();
             this.bonesBox = new System.Windows.Forms.CheckBox();
             this.light2Box = new System.Windows.Forms.CheckBox();
             this.light1Box = new System.Windows.Forms.CheckBox();
@@ -43,24 +54,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.profileBox = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.bonesLabel = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.leavesLabel = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.polygonsLabel = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.verticesLabel = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.xnaControl = new LTreeDemo.TreeDemoControl();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seedBox)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.randomButton);
             this.panel1.Controls.Add(this.label4);
@@ -70,15 +76,123 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.profileBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(676, 0);
+            this.panel1.Location = new System.Drawing.Point(649, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 616);
+            this.panel1.Size = new System.Drawing.Size(227, 616);
             this.panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(52, 423);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(109, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Save Image";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.bonesLabel);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.leavesLabel);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.polygonsLabel);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.verticesLabel);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(9, 312);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(206, 105);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Statistics";
+            // 
+            // bonesLabel
+            // 
+            this.bonesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bonesLabel.Location = new System.Drawing.Point(132, 82);
+            this.bonesLabel.Name = "bonesLabel";
+            this.bonesLabel.Size = new System.Drawing.Size(64, 13);
+            this.bonesLabel.TabIndex = 10;
+            this.bonesLabel.Text = "123";
+            this.bonesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(2, 82);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(37, 13);
+            this.label14.TabIndex = 9;
+            this.label14.Text = "Bones";
+            // 
+            // leavesLabel
+            // 
+            this.leavesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.leavesLabel.Location = new System.Drawing.Point(132, 60);
+            this.leavesLabel.Name = "leavesLabel";
+            this.leavesLabel.Size = new System.Drawing.Size(64, 13);
+            this.leavesLabel.TabIndex = 8;
+            this.leavesLabel.Text = "123";
+            this.leavesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(2, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(42, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "Leaves";
+            // 
+            // polygonsLabel
+            // 
+            this.polygonsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.polygonsLabel.Location = new System.Drawing.Point(132, 38);
+            this.polygonsLabel.Name = "polygonsLabel";
+            this.polygonsLabel.Size = new System.Drawing.Size(64, 13);
+            this.polygonsLabel.TabIndex = 6;
+            this.polygonsLabel.Text = "123";
+            this.polygonsLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(2, 38);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Trunk polygons";
+            // 
+            // verticesLabel
+            // 
+            this.verticesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.verticesLabel.Location = new System.Drawing.Point(132, 16);
+            this.verticesLabel.Name = "verticesLabel";
+            this.verticesLabel.Size = new System.Drawing.Size(64, 13);
+            this.verticesLabel.TabIndex = 4;
+            this.verticesLabel.Text = "123";
+            this.verticesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(2, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(75, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Trunk vertices";
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.groundBox);
             this.groupBox1.Controls.Add(this.bonesBox);
             this.groupBox1.Controls.Add(this.light2Box);
             this.groupBox1.Controls.Add(this.light1Box);
@@ -87,15 +201,28 @@
             this.groupBox1.Controls.Add(this.branchesBox);
             this.groupBox1.Location = new System.Drawing.Point(9, 128);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(179, 161);
+            this.groupBox1.Size = new System.Drawing.Size(206, 178);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Display Options";
             // 
+            // groundBox
+            // 
+            this.groundBox.AutoSize = true;
+            this.groundBox.Checked = true;
+            this.groundBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.groundBox.Location = new System.Drawing.Point(6, 132);
+            this.groundBox.Name = "groundBox";
+            this.groundBox.Size = new System.Drawing.Size(61, 17);
+            this.groundBox.TabIndex = 6;
+            this.groundBox.Text = "Ground";
+            this.groundBox.UseVisualStyleBackColor = true;
+            this.groundBox.CheckedChanged += new System.EventHandler(this.UpdateOptions);
+            // 
             // bonesBox
             // 
             this.bonesBox.AutoSize = true;
-            this.bonesBox.Location = new System.Drawing.Point(6, 134);
+            this.bonesBox.Location = new System.Drawing.Point(5, 155);
             this.bonesBox.Name = "bonesBox";
             this.bonesBox.Size = new System.Drawing.Size(56, 17);
             this.bonesBox.TabIndex = 5;
@@ -174,7 +301,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.randomButton.Location = new System.Drawing.Point(52, 99);
             this.randomButton.Name = "randomButton";
-            this.randomButton.Size = new System.Drawing.Size(82, 23);
+            this.randomButton.Size = new System.Drawing.Size(109, 23);
             this.randomButton.TabIndex = 8;
             this.randomButton.Text = "Random";
             this.randomButton.UseVisualStyleBackColor = true;
@@ -200,7 +327,7 @@
             0,
             0});
             this.seedBox.Name = "seedBox";
-            this.seedBox.Size = new System.Drawing.Size(179, 20);
+            this.seedBox.Size = new System.Drawing.Size(206, 20);
             this.seedBox.TabIndex = 6;
             this.seedBox.ValueChanged += new System.EventHandler(this.seedBox_ValueChanged);
             // 
@@ -218,7 +345,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 572);
+            this.label2.Location = new System.Drawing.Point(6, 564);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(196, 13);
             this.label2.TabIndex = 3;
@@ -241,112 +368,29 @@
             this.profileBox.FormattingEnabled = true;
             this.profileBox.Location = new System.Drawing.Point(9, 25);
             this.profileBox.Name = "profileBox";
-            this.profileBox.Size = new System.Drawing.Size(179, 21);
+            this.profileBox.Size = new System.Drawing.Size(206, 21);
             this.profileBox.TabIndex = 0;
             this.profileBox.SelectedIndexChanged += new System.EventHandler(this.profileBox_SelectedIndexChanged);
             // 
-            // groupBox2
+            // label5
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.bonesLabel);
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.leavesLabel);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.polygonsLabel);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.verticesLabel);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(685, 295);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(179, 105);
-            this.groupBox2.TabIndex = 10;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Statistics";
-            // 
-            // bonesLabel
-            // 
-            this.bonesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bonesLabel.Location = new System.Drawing.Point(105, 82);
-            this.bonesLabel.Name = "bonesLabel";
-            this.bonesLabel.Size = new System.Drawing.Size(64, 13);
-            this.bonesLabel.TabIndex = 10;
-            this.bonesLabel.Text = "123";
-            this.bonesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(2, 82);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(37, 13);
-            this.label14.TabIndex = 9;
-            this.label14.Text = "Bones";
-            // 
-            // leavesLabel
-            // 
-            this.leavesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.leavesLabel.Location = new System.Drawing.Point(105, 60);
-            this.leavesLabel.Name = "leavesLabel";
-            this.leavesLabel.Size = new System.Drawing.Size(64, 13);
-            this.leavesLabel.TabIndex = 8;
-            this.leavesLabel.Text = "123";
-            this.leavesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(2, 60);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(42, 13);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "Leaves";
-            // 
-            // polygonsLabel
-            // 
-            this.polygonsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.polygonsLabel.Location = new System.Drawing.Point(105, 38);
-            this.polygonsLabel.Name = "polygonsLabel";
-            this.polygonsLabel.Size = new System.Drawing.Size(64, 13);
-            this.polygonsLabel.TabIndex = 6;
-            this.polygonsLabel.Text = "123";
-            this.polygonsLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(2, 38);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Trunk polygons";
-            // 
-            // verticesLabel
-            // 
-            this.verticesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.verticesLabel.Location = new System.Drawing.Point(105, 16);
-            this.verticesLabel.Name = "verticesLabel";
-            this.verticesLabel.Size = new System.Drawing.Size(64, 13);
-            this.verticesLabel.TabIndex = 4;
-            this.verticesLabel.Text = "123";
-            this.verticesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(2, 16);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(75, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Trunk vertices";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 579);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(205, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Hold right mouse button to change height.";
             // 
             // xnaControl
             // 
+            this.xnaControl.BackgroundColor = new Microsoft.Xna.Framework.Graphics.Color(((byte)(100)), ((byte)(149)), ((byte)(237)), ((byte)(255)));
             this.xnaControl.CameraDistance = 0F;
+            this.xnaControl.CameraHeight = 2000F;
             this.xnaControl.CameraOrbitAngle = 0F;
             this.xnaControl.CameraPitchAngle = 0F;
             this.xnaControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xnaControl.EnableBones = false;
+            this.xnaControl.EnableGround = false;
             this.xnaControl.EnableLeaves = false;
             this.xnaControl.EnableLight1 = false;
             this.xnaControl.EnableLight2 = false;
@@ -356,7 +400,7 @@
             this.xnaControl.Name = "xnaControl";
             this.xnaControl.ProfileIndex = 0;
             this.xnaControl.Seed = 0;
-            this.xnaControl.Size = new System.Drawing.Size(676, 616);
+            this.xnaControl.Size = new System.Drawing.Size(649, 616);
             this.xnaControl.TabIndex = 1;
             this.xnaControl.Text = "xnaControl";
             this.xnaControl.TreeUpdated += new System.EventHandler(this.xnaControl_OnTreeUpdated);
@@ -366,7 +410,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 616);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.xnaControl);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -376,11 +419,11 @@
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seedBox)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -412,6 +455,9 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label verticesLabel;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox groundBox;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
     }
 }
 

@@ -37,10 +37,12 @@ namespace LTreeDemo
         private Quad groundPlane;
         private BasicEffect groundEffect;
         private Matrix groundWorld = Matrix.CreateRotationX(-MathHelper.PiOver2);
+        private RenderTarget2D renderTarget;
 
         public float CameraOrbitAngle { get; set; }
         public float CameraPitchAngle { get; set; }
         public float CameraDistance { get; set; }
+        public float CameraHeight { get; set; }
 
         public bool Initialized { get; private set; }
 
@@ -98,9 +100,12 @@ namespace LTreeDemo
         public bool EnableLight1 { get; set; }
         public bool EnableLight2 { get; set; }
         public bool EnableWind { get; set; }
+        public bool EnableGround { get; set; }
 
         [DisplayName("TreeUpdated")]
         public event EventHandler TreeUpdated;
+
+        public Color BackgroundColor { get; set; }
         
         public void UpdateTree()
         {
@@ -115,6 +120,8 @@ namespace LTreeDemo
 
         public TreeDemoControl()
         {
+            CameraHeight = 2000;
+            BackgroundColor = Color.CornflowerBlue;
             Profiles = new List<TreeProfile>();
             ProfileNames = new List<string>();
             timer = new Stopwatch();
@@ -126,6 +133,57 @@ namespace LTreeDemo
         void Application_Idle(object sender, EventArgs e)
         {
             Invalidate();
+        }
+
+        const int RenderTargetSize = 256;
+
+        public void SaveTreeImage(string filename, ImageFileFormat format)
+        {
+            if (renderTarget == null)
+                renderTarget = new RenderTarget2D(GraphicsDevice, RenderTargetSize, RenderTargetSize, 1, SurfaceFormat.Color);
+
+            Camera.AspectRatio = 1.0f;
+            
+            GraphicsDevice.SetRenderTarget(0, renderTarget);
+            //GraphicsDevice.Clear(Color.TransparentWhite);
+            GraphicsDevice.Clear(BackgroundColor);
+            /*
+            block.Apply();
+            
+            // First draw color only so the white background does not bleed onto transparent parts of the tree
+            GraphicsDevice.RenderState.ColorWriteChannels = ColorWriteChannels.Red | ColorWriteChannels.Green | ColorWriteChannels.Blue;
+
+            GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
+            tree.DrawTrunk(treeWorld, Camera.View, Camera.Projection);
+
+            tree.LeafEffect.CurrentTechnique = tree.LeafEffect.Techniques["SetNoRenderStates"];
+            GraphicsDevice.RenderState.AlphaTestEnable = true;
+            GraphicsDevice.RenderState.ReferenceAlpha = 127;
+            GraphicsDevice.RenderState.AlphaFunction = CompareFunction.Greater;
+            GraphicsDevice.RenderState.CullMode = CullMode.None;
+            GraphicsDevice.RenderState.DepthBufferEnable = true;
+            GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
+
+            tree.DrawLeaves(treeWorld, Camera.View, Camera.Projection);
+
+            tree.LeafEffect.CurrentTechnique = tree.LeafEffect.Techniques["Standard"];
+
+            GraphicsDevice.RenderState.ColorWriteChannels = ColorWriteChannels.All;*/
+
+            // Now draw the tree again, blending on top of the other tree
+            block.Apply();
+            tree.DrawTrunk(treeWorld, Camera.View, Camera.Projection);
+
+            block.Apply();
+            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Linear;
+            tree.DrawLeaves(treeWorld, Camera.View, Camera.Projection);
+
+            GraphicsDevice.SetRenderTarget(0, null);
+
+            Texture2D texture = renderTarget.GetTexture();
+            texture.Save(filename, format);
+
+            Camera.AspectRatio = GraphicsDevice.Viewport.Width / (float)GraphicsDevice.Viewport.Height;
         }
         
         protected override void Initialize()
@@ -190,18 +248,22 @@ namespace LTreeDemo
 
             lastDraw = (int)timer.Elapsed.TotalMilliseconds;
 
+            Camera.Target = new Vector3(0, CameraHeight, 0);
             Camera.SetThirdPersonView(CameraOrbitAngle, CameraPitchAngle, CameraDistance);
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(BackgroundColor);
 
             // Draw the ground
-            block.Apply();
-            groundEffect.World = groundWorld;
-            groundEffect.View = Camera.View;
-            groundEffect.Projection = Camera.Projection;
-            groundEffect.DirectionalLight0.Enabled = EnableLight1;
-            groundEffect.DirectionalLight1.Enabled = EnableLight2;
-            groundPlane.Draw(groundEffect);
+            if (EnableGround)
+            {
+                block.Apply();
+                groundEffect.World = groundWorld;
+                groundEffect.View = Camera.View;
+                groundEffect.Projection = Camera.Projection;
+                groundEffect.DirectionalLight0.Enabled = EnableLight1;
+                groundEffect.DirectionalLight1.Enabled = EnableLight2;
+                groundPlane.Draw(groundEffect);
+            }
 
             tree.TrunkEffect.Parameters["DirLight0Enabled"].SetValue(EnableLight1);
             tree.LeafEffect.Parameters["DirLight0Enabled"].SetValue(EnableLight1);
@@ -259,22 +321,29 @@ namespace LTreeDemo
                 Camera.AspectRatio = GraphicsDevice.Viewport.Width / (float)GraphicsDevice.Viewport.Height;
         }
 
-        System.Drawing.Point? dragPoint = null;
+        System.Drawing.Point dragPoint;
+
+        bool leftMouseButton = false;
+        bool rightMouseButton = false;
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
-            if (dragPoint == null)
-                return;
-
-            int dx = e.X - dragPoint.Value.X;
-            int dy = e.Y - dragPoint.Value.Y;
-
-            CameraOrbitAngle += dx * MathHelper.Pi / 300.0f;
-            CameraPitchAngle -= dy * MathHelper.Pi / 300.0f;
+            int dx = e.X - dragPoint.X;
+            int dy = e.Y - dragPoint.Y;
 
             dragPoint = e.Location;
+
+            if (leftMouseButton && !rightMouseButton)
+            {
+                CameraOrbitAngle += dx * MathHelper.Pi / 300.0f;
+                CameraPitchAngle -= dy * MathHelper.Pi / 300.0f;
+            }
+            if (rightMouseButton && !leftMouseButton)
+            {
+                CameraHeight += dy * 5.0f;
+            }
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -289,7 +358,11 @@ namespace LTreeDemo
             // mouse move and mouse up events until the button is lifted.
             if (e.Button == MouseButtons.Left)
             {
-                dragPoint = e.Location;
+                leftMouseButton = true;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                rightMouseButton = true;
             }
         }
 
@@ -300,7 +373,11 @@ namespace LTreeDemo
             // Stop rotating the camera when the left mouse button is lifted
             if (e.Button == MouseButtons.Left)
             {
-                dragPoint = null;
+                leftMouseButton = false;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                rightMouseButton = false;
             }
         }
 
