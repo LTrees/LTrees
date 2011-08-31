@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("LTreesLibrary")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2009")]
+[assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,4 +28,4 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.1.0.0")]
