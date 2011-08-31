@@ -186,9 +186,8 @@ namespace LTreeDemo
 
             grid.Draw(gridworld, camera.View, camera.Projection);
 
-            GraphicsDevice.RenderState.DepthBufferEnable = true;
-            GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
-            GraphicsDevice.RenderState.AlphaBlendEnable = false;
+        	GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
             // We call SimpleTree.DrawTrunk to draw the trunk.
             // This sets a lot of effect parameters for us, although not all of them
@@ -204,9 +203,8 @@ namespace LTreeDemo
             // so in practice you want to render them at different times
             if (drawLeaves)
                 tree.DrawLeaves(meshworld, camera.View, camera.Projection);
-            
-            GraphicsDevice.RenderState.DepthBufferEnable = false;
-            GraphicsDevice.RenderState.AlphaTestEnable = false;
+
+			GraphicsDevice.DepthStencilState = DepthStencilState.None;
             if (drawBones)
                 tree.DrawBonesAsLines(meshworld, camera.View, camera.Projection);
 

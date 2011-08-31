@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -114,7 +115,7 @@ namespace LeafTool
                 textures[i] = Content.Load<Texture2D>(String.Format(textureFilenameFormat, textureFilenames[i]));
 			}
 
-            renderTarget = new RenderTarget2D(GraphicsDevice, 256, 256, 1, SurfaceFormat.Color);
+            renderTarget = new RenderTarget2D(GraphicsDevice, 256, 256, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
 
             mouseSprite = new LeafSprite(Vector2.Zero, 32, 0, 0);
 
@@ -212,30 +213,32 @@ namespace LeafTool
         {
             saveDialog.DefaultExt = ".png";
             saveDialog.AddExtension = true;
-            saveDialog.Filter = "Image files (*.png, *.jpg, *.bmp, *.tga)|*.png;*.jpg;*.bmp;*.tga|All files (*.*)|*.*";
+            saveDialog.Filter = "Image files (*.png, *.jpg)|*.png;*.jpg|All files (*.*)|*.*";
             DialogResult result = saveDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Texture2D texture = renderTarget.GetTexture();
-                texture.Save(saveDialog.FileName, GetImageFileFormatFromFilename(saveDialog.FileName));
+                Texture2D texture = renderTarget;
+				using (Stream stream = File.OpenWrite(saveDialog.FileName))
+				{
+					if (IsImageFileFormatFromFilenamePng(saveDialog.FileName))
+						texture.SaveAsPng(stream, texture.Width, texture.Height);
+					else
+						texture.SaveAsJpeg(stream, texture.Width, texture.Height);
+				}
             }
         }
 
-        private ImageFileFormat GetImageFileFormatFromFilename(string filename)
+        private bool IsImageFileFormatFromFilenamePng(string filename)
         {
             String ext = filename.Substring(filename.LastIndexOf(".")).ToLowerInvariant();
             switch (ext)
             {
                 case ".png":
-                    return ImageFileFormat.Png;
+					return true;
                 case ".jpg":
-                    return ImageFileFormat.Jpg;
-                case ".bmp":
-                    return ImageFileFormat.Bmp;
-                case ".tga":
-                    return ImageFileFormat.Tga;
+					return false;
                 default:
-                    return ImageFileFormat.Png; // Just use this as default
+                    return true; // Just use PNG this as default
             }
         }
 
@@ -284,13 +287,13 @@ namespace LeafTool
         protected override void Draw(GameTime gameTime)
         {
             // Draw on the render target in case we want to save the image
-            GraphicsDevice.SetRenderTarget(0, renderTarget);
-            GraphicsDevice.Clear(Color.TransparentBlack);
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(new Color(0.0f, 0.0f, 0.0f, 0.0f));
             DrawBackgroundLeaves();
             DrawForegroundLeaves();
-            GraphicsDevice.SetRenderTarget(0, null);
+            GraphicsDevice.SetRenderTarget(null);
 
-            GraphicsDevice.Clear(Color.TransparentWhite);
+			GraphicsDevice.Clear(new Color(0.0f, 1.0f, 1.0f, 1.0f));
             DrawLeafSprites();
             DrawMouseSprite();
             DrawPivot();
@@ -300,16 +303,40 @@ namespace LeafTool
 
         private void DrawBackgroundLeaves()
         {
-            GraphicsDevice.RenderState.ColorWriteChannels = ColorWriteChannels.Red | ColorWriteChannels.Green | ColorWriteChannels.Blue;
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+			BlendState savedBlendState = GraphicsDevice.BlendState;
+        	GraphicsDevice.BlendState = ChangeColorWriteChannels(savedBlendState,
+				ColorWriteChannels.Red | ColorWriteChannels.Green | ColorWriteChannels.Blue);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             for (int i = 0; i < sprites.Count; i++)
             {
                 LeafSprite sprite = sprites[sprites.Count - i - 1];
                 BatchLeafSprite(sprite, 2.0f);
             }
             spriteBatch.End();
-            GraphicsDevice.RenderState.ColorWriteChannels = ColorWriteChannels.All;
+            GraphicsDevice.BlendState = ChangeColorWriteChannels(savedBlendState,
+				ColorWriteChannels.All);
         }
+
+		private static BlendState ChangeColorWriteChannels(BlendState blendState, ColorWriteChannels colorWriteChannels)
+		{
+			return new BlendState
+			{
+				AlphaBlendFunction = blendState.AlphaBlendFunction,
+				AlphaDestinationBlend = blendState.AlphaDestinationBlend,
+				AlphaSourceBlend = blendState.AlphaSourceBlend,
+				BlendFactor = blendState.BlendFactor,
+				ColorBlendFunction = blendState.ColorBlendFunction,
+				ColorDestinationBlend = blendState.ColorDestinationBlend,
+				ColorSourceBlend = blendState.ColorSourceBlend,
+				ColorWriteChannels = colorWriteChannels,
+				ColorWriteChannels1 = blendState.ColorWriteChannels1,
+				ColorWriteChannels2 = blendState.ColorWriteChannels2,
+				ColorWriteChannels3 = blendState.ColorWriteChannels3,
+				MultiSampleMask = blendState.MultiSampleMask,
+				Name = blendState.Name
+			};
+		}
+
         private void DrawForegroundLeaves()
         {
             DrawLeafSprites();
@@ -318,21 +345,21 @@ namespace LeafTool
         private void DrawPivot()
         {
             int pivotSize = 10;
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(pivotTexture, new Rectangle((int)pivot.X - pivotSize / 2, (int)pivot.Y - pivotSize / 2, pivotSize, pivotSize), Color.White);
             spriteBatch.End();
         }
 
         private void DrawMouseSprite()
         {
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             BatchLeafSprite(mouseSprite);
             spriteBatch.End();
         }
 
         private void DrawLeafSprites()
         {
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (LeafSprite sprite in sprites)
             {
                 BatchLeafSprite(sprite);

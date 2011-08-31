@@ -114,13 +114,13 @@ namespace LTreesLibrary.Trees
         public SimpleTree(GraphicsDevice device)
         {
             this.device = device;
-            this.boneEffect = new BasicEffect(device, new EffectPool());
+            this.boneEffect = new BasicEffect(device);
         }
         public SimpleTree(GraphicsDevice device, TreeSkeleton skeleton)
         {
             this.device = device;
             this.skeleton = skeleton;
-            this.boneEffect = new BasicEffect(device, new EffectPool());
+            this.boneEffect = new BasicEffect(device);
             UpdateSkeleton();
         }
 
@@ -229,10 +229,9 @@ namespace LTreesLibrary.Trees
             boneEffect.View = view;
             boneEffect.Projection = projection;
 
-            bool wasDepthBufferOn = device.RenderState.DepthBufferEnable;
-            device.RenderState.DepthBufferEnable = false;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            bool wasDepthBufferOn = device.DepthStencilState.DepthBufferEnable;
+        	device.DepthStencilState = DepthStencilState.None;
+        	device.BlendState = BlendState.Opaque;
 
             Matrix[] transforms = new Matrix[skeleton.Bones.Count];
             skeleton.CopyAbsoluteBoneTranformsTo(transforms, animationState.BoneRotations);
@@ -244,16 +243,14 @@ namespace LTreesLibrary.Trees
                 vertices[2 * i + 1] = new VertexPositionColor(transforms[i].Translation + transforms[i].Up * skeleton.Bones[i].Length, Color.Red);
             }
 
-            boneEffect.Begin();
             foreach (EffectPass pass in boneEffect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+                pass.Apply();
                 device.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertices, 0, skeleton.Bones.Count);
-                pass.End();
             }
-            boneEffect.End();
 
-            device.RenderState.DepthBufferEnable = wasDepthBufferOn;
+			if (wasDepthBufferOn)
+				device.DepthStencilState = DepthStencilState.Default;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace LTreesLibrary.Trees
         private int numvertices;
         private int numlines;
         private BasicEffect effect;
-        private VertexDeclaration declaration;
 
         public TreeLineMesh(GraphicsDevice device, TreeSkeleton skeleton)
         {
@@ -54,16 +53,13 @@ namespace LTreesLibrary.Trees
             }
 
             // Create buffers
-            vbuffer = new VertexBuffer(device, numvertices * VertexPositionColor.SizeInBytes, BufferUsage.None);
+            vbuffer = new VertexBuffer(device, VertexPositionColor.VertexDeclaration, numvertices, BufferUsage.None);
             vbuffer.SetData<VertexPositionColor>(vertices);
-            ibuffer = new IndexBuffer(device, indices.Length * sizeof(short), BufferUsage.None, IndexElementSize.SixteenBits);
+            ibuffer = new IndexBuffer(device, IndexElementSize.SixteenBits, indices.Length, BufferUsage.None);
             ibuffer.SetData<short>(indices);
 
-            // Create vertex declaration
-            declaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
-
             // Create the effect
-            effect = new BasicEffect(device, new EffectPool());
+            effect = new BasicEffect(device);
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
@@ -72,18 +68,14 @@ namespace LTreesLibrary.Trees
             effect.View = view;
             effect.Projection = projection;
 
-            device.VertexDeclaration = declaration;
-            device.Vertices[0].SetSource(vbuffer, 0, VertexPositionColor.SizeInBytes);
+            device.SetVertexBuffer(vbuffer);
             device.Indices = ibuffer;
 
-            effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+            	pass.Apply();
                 device.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, numvertices, 0, numlines);
-                pass.End();
             }
-            effect.End();
         }
 
         #region IDisposable Members
@@ -92,7 +84,6 @@ namespace LTreesLibrary.Trees
         {
             vbuffer.Dispose();
             ibuffer.Dispose();
-            declaration.Dispose();
             effect.Dispose();
         }
 

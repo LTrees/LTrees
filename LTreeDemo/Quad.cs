@@ -15,7 +15,6 @@ namespace LTreeDemo
 
         private VertexBuffer vertexBuffer;
         private IndexBuffer indexBuffer;
-        private VertexDeclaration vertexDeclaration;
 
         public Quad(GraphicsDevice device, float width, float height)
         {
@@ -41,13 +40,11 @@ namespace LTreeDemo
                 0, 1, 2,
                 2, 3, 0
             };
-            vertexBuffer = new VertexBuffer(GraphicsDevice, vertices.Length * VertexPositionNormalTexture.SizeInBytes, BufferUsage.None);
-            indexBuffer = new IndexBuffer(GraphicsDevice, indices.Length * sizeof(short), BufferUsage.None, IndexElementSize.SixteenBits);
+            vertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionNormalTexture.VertexDeclaration, vertices.Length, BufferUsage.None);
+            indexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.SixteenBits, indices.Length, BufferUsage.None);
 
             vertexBuffer.SetData(vertices);
             indexBuffer.SetData(indices);
-
-            vertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionNormalTexture.VertexElements);
         }
 
         /// <summary>
@@ -58,14 +55,11 @@ namespace LTreeDemo
         /// <param name="effect">The effect to draw with.</param>
         public void Draw(Effect effect)
         {
-            effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+                pass.Apply();
                 DrawGeometry();
-                pass.End();
             }
-            effect.End();
         }
 
         /// <summary>
@@ -74,8 +68,7 @@ namespace LTreeDemo
         /// </summary>
         public void DrawGeometry()
         {
-            GraphicsDevice.VertexDeclaration = vertexDeclaration;
-            GraphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionNormalTexture.SizeInBytes);
+            GraphicsDevice.SetVertexBuffer(vertexBuffer);
             GraphicsDevice.Indices = indexBuffer;
             GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4, 0, 2);
         }
@@ -86,7 +79,6 @@ namespace LTreeDemo
         {
             vertexBuffer.Dispose();
             indexBuffer.Dispose();
-            vertexDeclaration.Dispose();
         }
 
         #endregion

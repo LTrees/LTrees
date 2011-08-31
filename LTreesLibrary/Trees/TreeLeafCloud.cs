@@ -22,7 +22,6 @@ namespace LTreesLibrary.Trees
         private GraphicsDevice device;
         private VertexBuffer vbuffer;
         private IndexBuffer ibuffer;
-        private VertexDeclaration vdeclaration;
         private int numleaves;
         private BoundingSphere boundingSphere;
 
@@ -120,14 +119,11 @@ namespace LTreesLibrary.Trees
             }
 
             // Create the buffers
-            vbuffer = new VertexBuffer(device, vertices.Length * LeafVertex.SizeInBytes, BufferUsage.None);
+            vbuffer = new VertexBuffer(device, LeafVertex.VertexDeclaration, vertices.Length, BufferUsage.None);
             vbuffer.SetData<LeafVertex>(vertices);
 
-            ibuffer = new IndexBuffer(device, indices.Length * sizeof(short), BufferUsage.None, IndexElementSize.SixteenBits);
+            ibuffer = new IndexBuffer(device, IndexElementSize.SixteenBits, indices.Length, BufferUsage.None);
             ibuffer.SetData<short>(indices);
-
-            // Create the vertex declaration
-            vdeclaration = new VertexDeclaration(device, LeafVertex.VertexElements);
 
             // Remember the number of leaves
             numleaves = skeleton.Leaves.Count;
@@ -144,18 +140,14 @@ namespace LTreesLibrary.Trees
             if (numleaves == 0)
                 return;
 
-            device.Vertices[0].SetSource(vbuffer, 0, LeafVertex.SizeInBytes);
-            device.VertexDeclaration = vdeclaration;
+            device.SetVertexBuffer(vbuffer);
             device.Indices = ibuffer;
 
-            effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+            	pass.Apply();
                 device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, numleaves * 4, 0, numleaves * 2);
-                pass.End();
             }
-            effect.End();
         }
 
         #region IDisposable Members
@@ -164,7 +156,6 @@ namespace LTreesLibrary.Trees
         {
             vbuffer.Dispose();
             ibuffer.Dispose();
-            vdeclaration.Dispose();
         }
 
         #endregion

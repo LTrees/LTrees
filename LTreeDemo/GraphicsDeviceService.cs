@@ -53,16 +53,17 @@ namespace LTreeDemo
         {
             parameters = new PresentationParameters();
 
-            parameters.BackBufferWidth = Math.Max(width, 1);
-            parameters.BackBufferHeight = Math.Max(height, 1);
-            parameters.BackBufferFormat = SurfaceFormat.Color;
-
-            parameters.EnableAutoDepthStencil = true;
-            parameters.AutoDepthStencilFormat = DepthFormat.Depth24;
+			parameters.BackBufferWidth = Math.Max(width, 1);
+			parameters.BackBufferHeight = Math.Max(height, 1);
+			parameters.BackBufferFormat = SurfaceFormat.Color;
+			parameters.DepthStencilFormat = DepthFormat.Depth24;
+			parameters.DeviceWindowHandle = windowHandle;
+			parameters.PresentationInterval = PresentInterval.Immediate;
+			parameters.MultiSampleCount = 1;
+			parameters.IsFullScreen = false;
 
             graphicsDevice = new GraphicsDevice(GraphicsAdapter.DefaultAdapter,
-                                                DeviceType.Hardware,
-                                                windowHandle,
+                                                GraphicsProfile.Reach,
                                                 parameters);
         }
 
@@ -145,9 +146,9 @@ namespace LTreeDemo
 
 
         // IGraphicsDeviceService events.
-        public event EventHandler DeviceCreated;
-        public event EventHandler DeviceDisposing;
-        public event EventHandler DeviceReset;
-        public event EventHandler DeviceResetting;
+        public event EventHandler<EventArgs> DeviceCreated;
+		public event EventHandler<EventArgs> DeviceDisposing;
+		public event EventHandler<EventArgs> DeviceReset;
+		public event EventHandler<EventArgs> DeviceResetting;
     }
 }

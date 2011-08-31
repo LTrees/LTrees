@@ -26,7 +26,7 @@ namespace LTreeDemo
         public bool NewFrame(GameTime time)
         {
             framesSoFar++;
-            millisecondsSoFar += time.ElapsedRealTime.Milliseconds;
+            millisecondsSoFar += time.ElapsedGameTime.Milliseconds;
             if (millisecondsSoFar >= interval)
             {
                 fps = framesSoFar * 1000.0f / (float)millisecondsSoFar;

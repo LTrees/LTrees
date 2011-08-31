@@ -11,7 +11,6 @@ namespace LTreeDemo
         private GraphicsDevice device;
         private VertexBuffer vbuffer;
         private IndexBuffer ibuffer;
-        private VertexDeclaration vdeclaration;
         private int numrows;
         private int numcolumns;
         private float size;
@@ -60,41 +59,33 @@ namespace LTreeDemo
             }
 
             // Create buffers
-            vbuffer = new VertexBuffer(device, vertices.Length * VertexPositionColor.SizeInBytes, BufferUsage.WriteOnly);
+            vbuffer = new VertexBuffer(device, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
             vbuffer.SetData<VertexPositionColor>(vertices);
 
-            ibuffer = new IndexBuffer(device, indices.Length * sizeof(short), BufferUsage.WriteOnly, IndexElementSize.SixteenBits);
+            ibuffer = new IndexBuffer(device, IndexElementSize.SixteenBits, indices.Length, BufferUsage.WriteOnly);
             ibuffer.SetData<short>(indices);
-
-            // Create vertex declaration
-            vdeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
 
             numlines = vertices.Length / 2;
 
             // Create the effect
-            effect = new BasicEffect(device, new EffectPool());
+            effect = new BasicEffect(device);
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
-            device.Vertices[0].SetSource(vbuffer, 0, VertexPositionColor.SizeInBytes);
-            device.VertexDeclaration = vdeclaration;
+            device.SetVertexBuffer(vbuffer);
 
             effect.World = world;
             effect.View = view;
             effect.Projection = projection;
 
             device.Indices = ibuffer;
-            effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+            	pass.Apply();
 
                 device.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, numlines * 2, 0, numlines);
-
-                pass.End();
             }
-            effect.End();
         }
     }
 }

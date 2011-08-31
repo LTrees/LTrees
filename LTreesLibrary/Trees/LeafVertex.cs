@@ -63,18 +63,13 @@ namespace LTreesLibrary.Trees
             this.BranchNormal = normal;
         }
 
-        public static readonly VertexElement[] VertexElements = {
-            new VertexElement(0, 0, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Position, 0),
-            new VertexElement(0, 12, VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 0),
-            new VertexElement(0, 20, VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 1),
-            new VertexElement(0, 28, VertexElementFormat.Vector4, VertexElementMethod.Default, VertexElementUsage.Color, 0),
-            new VertexElement(0, 44, VertexElementFormat.Short2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 2),
-            new VertexElement(0, 48, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Normal, 0),
-        };
-
-        /// <summary>
-        /// Number of bytes used by a vertex, which is 60 bytes.
-        /// </summary>
-        public const int SizeInBytes = sizeof(float) * (3 + 2 + 2 + 4 + 3) + sizeof(short) * 2;
+        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration(new[]{
+            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+            new VertexElement(12, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+            new VertexElement(20, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 1),
+            new VertexElement(28, VertexElementFormat.Vector4, VertexElementUsage.Color, 0),
+            new VertexElement(44, VertexElementFormat.Short2, VertexElementUsage.TextureCoordinate, 2),
+            new VertexElement(48, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
+        });
     }
 }

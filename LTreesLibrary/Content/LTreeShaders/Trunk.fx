@@ -97,7 +97,8 @@ technique Technique1
 {
     pass Pass1
     {
-        VertexShader = compile vs_1_1 VertexShaderFunction();
-		PixelShader = compile ps_1_1 PixelShaderFunction();
+		// XNA 4.0 no longer supports 1_1 so need to use 2_0.
+        VertexShader = compile vs_2_0 VertexShaderFunction();
+		PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }

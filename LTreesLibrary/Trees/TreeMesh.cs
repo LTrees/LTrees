@@ -23,7 +23,6 @@ namespace LTreesLibrary.Trees
         private GraphicsDevice device;
         private VertexBuffer vbuffer;
         private IndexBuffer ibuffer;
-        private VertexDeclaration vdeclaration;
         private int numvertices;
         private int numtriangles;
         private int maxRadialSegments = 8;
@@ -112,18 +111,14 @@ namespace LTreesLibrary.Trees
         /// <param name="effect">Effect to draw with.</param>
         public void Draw(Effect effect)
         {
-            device.VertexDeclaration = vdeclaration;
-            device.Vertices[0].SetSource(vbuffer, 0, TreeVertex.SizeInBytes);
+            device.SetVertexBuffer(vbuffer);
             device.Indices = ibuffer;
 
-            effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+                pass.Apply();
                 device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, numvertices, 0, numtriangles);
-                pass.End();
             }
-            effect.End();
         }
 
         #region Mesh Creation
@@ -241,23 +236,20 @@ namespace LTreesLibrary.Trees
             numtriangles = indices.Count / 3;
 
             // Create the buffers
-            vbuffer = new VertexBuffer(device, vertices.Count * TreeVertex.SizeInBytes, BufferUsage.None);
+            vbuffer = new VertexBuffer(device, TreeVertex.VertexDeclaration, vertices.Count, BufferUsage.None);
             vbuffer.SetData<TreeVertex>(vertices.ToArray());
 
             if (vertices.Count > 0xFFFF)
             {
-                ibuffer = new IndexBuffer(device, indices.Count * sizeof(int), BufferUsage.None, IndexElementSize.ThirtyTwoBits);
+                ibuffer = new IndexBuffer(device, IndexElementSize.ThirtyTwoBits, indices.Count, BufferUsage.None);
                 ibuffer.SetData<int>(indices.ToArray());
             }
             else
             {
-                ibuffer = new IndexBuffer(device, indices.Count * sizeof(short), BufferUsage.None, IndexElementSize.SixteenBits);
+                ibuffer = new IndexBuffer(device, IndexElementSize.SixteenBits, indices.Count, BufferUsage.None);
                 ibuffer.SetData<short>(Create16BitArray(indices));
             }
             
-            // Create the vertex declaration
-            vdeclaration = new VertexDeclaration(device, TreeVertex.VertexElements);
-
             // Set the bounding sphere
             boundingSphere.Center = (min + max) / 2.0f;
             boundingSphere.Radius = (max - min).Length() / 2.0f;
@@ -345,7 +337,6 @@ namespace LTreesLibrary.Trees
         {
             vbuffer.Dispose();
             ibuffer.Dispose();
-            vdeclaration.Dispose();
         }
 
         #endregion

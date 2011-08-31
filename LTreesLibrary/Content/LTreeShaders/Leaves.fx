@@ -94,18 +94,36 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     return float4(input.Color * tex2D(TextureSampler, input.TextureCoordinate).rgb, tex2Dbias(TextureSampler, float4(input.TextureCoordinate.xy, 1, -1)).a);
 }
 
+float4 PixelShaderFunctionOpaque(VertexShaderOutput input) : COLOR0
+{
+	float4 result = PixelShaderFunction(input);
+
+	// XNA 4.0 doesn't support AlphaTestEnable state, so need to replicate
+	// that functionality with this.
+	clip((result.a < 230.0 / 255.0) ? -1 : 1);
+
+	return result;
+}
+
+float4 PixelShaderFunctionBlendedEdges(VertexShaderOutput input) : COLOR0
+{
+	float4 result = PixelShaderFunction(input);
+
+	// XNA 4.0 doesn't support AlphaTestEnable state, so need to replicate
+	// that functionality with this.
+	clip((result.a > 230.0 / 255.0) ? -1 : 1);
+
+	return result;
+}
+
 technique Standard
 {
     pass Opaque
     {
-        VertexShader = compile vs_3_0 VertexShaderFunction();
-        PixelShader = compile ps_3_0 PixelShaderFunction();
+        VertexShader = compile vs_2_0 VertexShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunctionOpaque();
         
         AlphaBlendEnable = false;
-                
-        AlphaTestEnable = true;
-        AlphaFunc = Greater;
-        AlphaRef = 230;
         
         ZEnable = true;
         ZWriteEnable = true;
@@ -114,16 +132,12 @@ technique Standard
     }
     pass BlendedEdges
     {
-        VertexShader = compile vs_3_0 VertexShaderFunction();
-        PixelShader = compile ps_3_0 PixelShaderFunction();
+        VertexShader = compile vs_2_0 VertexShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunctionBlendedEdges();
         
         AlphaBlendEnable = true;
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
-        
-        AlphaTestEnable = true;
-        AlphaFunc = LessEqual;
-        AlphaRef = 230;
 
         ZEnable = true;
         ZWriteEnable = false;
@@ -135,7 +149,7 @@ technique SetNoRenderStates
 {
 	pass Pass1
 	{
-        VertexShader = compile vs_3_0 VertexShaderFunction();
-        PixelShader = compile ps_3_0 PixelShaderFunction();
+        VertexShader = compile vs_2_0 VertexShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunction();
 	}
 }

@@ -122,8 +122,12 @@ namespace LTreeDemo
             if (string.IsNullOrEmpty(beginDrawError))
             {
                 // Draw the control using the GraphicsDevice.
-                Draw();
-                EndDraw();
+
+				// Not exactly sure why, but in XNA 4.0 if we Present() without
+				// actually clearing or drawing anything, a solid blue colour
+				// comes up.
+                if (Draw())
+					EndDraw();
             }
             else
             {
@@ -295,7 +299,7 @@ namespace LTreeDemo
         /// <summary>
         /// Derived classes override this to draw themselves using the GraphicsDevice.
         /// </summary>
-        protected abstract void Draw();
+        protected abstract bool Draw();
 
 
         #endregion

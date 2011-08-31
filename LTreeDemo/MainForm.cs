@@ -75,29 +75,25 @@ namespace LTreeDemo
         private void button1_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Image files (*.png, *.jpg, *.bmp, *.tga)|*.png;*.jpg;*.bmp;*.tga|All files (*.*)|*.*";
+            dialog.Filter = "Image files (*.png, *.jpg)|*.png;*.jpg|All files (*.*)|*.*";
             DialogResult result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                xnaControl.SaveTreeImage(dialog.FileName, GetImageFileFormatFromFilename(dialog.FileName));
+				xnaControl.SaveTreeImage(dialog.FileName, IsImageFileFormatFromFilenamePng(dialog.FileName));
             }
         }
 
-        private ImageFileFormat GetImageFileFormatFromFilename(string filename)
+        private bool IsImageFileFormatFromFilenamePng(string filename)
         {
             String ext = filename.Substring(filename.LastIndexOf(".")).ToLowerInvariant();
             switch (ext)
             {
                 case ".png":
-                    return ImageFileFormat.Png;
+					return true;
                 case ".jpg":
-                    return ImageFileFormat.Jpg;
-                case ".bmp":
-                    return ImageFileFormat.Bmp;
-                case ".tga":
-                    return ImageFileFormat.Tga;
+					return false;
                 default:
-                    return ImageFileFormat.Png; // Just use this as default
+                    return true; // Just use this as default
             }
         }
 

@@ -383,7 +383,7 @@
             // 
             // xnaControl
             // 
-            this.xnaControl.BackgroundColor = new Microsoft.Xna.Framework.Graphics.Color(((byte)(100)), ((byte)(149)), ((byte)(237)), ((byte)(255)));
+            this.xnaControl.BackgroundColor = new Microsoft.Xna.Framework.Color(((byte)(100)), ((byte)(149)), ((byte)(237)), ((byte)(255)));
             this.xnaControl.CameraDistance = 0F;
             this.xnaControl.CameraHeight = 2000F;
             this.xnaControl.CameraOrbitAngle = 0F;

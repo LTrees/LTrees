@@ -62,16 +62,11 @@ namespace LTreesLibrary.Trees
             Bones.Bone2 = (short) bone2;
         }
 
-        public static readonly VertexElement[] VertexElements = {
-            new VertexElement(0, 0, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Position, 0),
-            new VertexElement(0, 12, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Normal, 0),
-            new VertexElement(0, 24, VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 0),
-            new VertexElement(0, 32, VertexElementFormat.Short2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 1),
-        };
-
-        /// <summary>
-        /// Number of bytes used by a vertex, which is 36 bytes.
-        /// </summary>
-        public const int SizeInBytes = sizeof(float) * (3 + 3 + 2) + sizeof(short) * 2;
+        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration(new[] {
+            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+            new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
+            new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+            new VertexElement(32, VertexElementFormat.Short2, VertexElementUsage.TextureCoordinate, 1),
+        });
     }
 }

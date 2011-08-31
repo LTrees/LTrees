@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 
-using Color = Microsoft.Xna.Framework.Graphics.Color;
+using Color = Microsoft.Xna.Framework.Color;
 using Matrix = Microsoft.Xna.Framework.Matrix;
 using LTreesLibrary.Trees;
 using System.Drawing.Drawing2D;
@@ -28,7 +28,7 @@ namespace LTreeDemo
         private int profileIndex;
         private SimpleTree tree;
         private Matrix treeWorld = Matrix.Identity;
-        private StateBlock block;
+        //private StateBlock block;
         private Stopwatch timer;
         private int lastDraw = 0;
         private TreeWindAnimator animator;
@@ -137,14 +137,14 @@ namespace LTreeDemo
 
         const int RenderTargetSize = 256;
 
-        public void SaveTreeImage(string filename, ImageFileFormat format)
+        public void SaveTreeImage(string filename, bool png)
         {
             if (renderTarget == null)
-                renderTarget = new RenderTarget2D(GraphicsDevice, RenderTargetSize, RenderTargetSize, 1, SurfaceFormat.Color);
+                renderTarget = new RenderTarget2D(GraphicsDevice, RenderTargetSize, RenderTargetSize, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.PreserveContents);
 
             Camera.AspectRatio = 1.0f;
             
-            GraphicsDevice.SetRenderTarget(0, renderTarget);
+            GraphicsDevice.SetRenderTarget(renderTarget);
             //GraphicsDevice.Clear(Color.TransparentWhite);
             GraphicsDevice.Clear(BackgroundColor);
             /*
@@ -171,20 +171,34 @@ namespace LTreeDemo
             GraphicsDevice.RenderState.ColorWriteChannels = ColorWriteChannels.All;*/
 
             // Now draw the tree again, blending on top of the other tree
-            block.Apply();
+        	ApplyStateBlock();
             tree.DrawTrunk(treeWorld, Camera.View, Camera.Projection);
 
-            block.Apply();
-            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Linear;
+			ApplyStateBlock();
+			GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
             tree.DrawLeaves(treeWorld, Camera.View, Camera.Projection);
 
-            GraphicsDevice.SetRenderTarget(0, null);
+            GraphicsDevice.SetRenderTarget(null);
 
-            Texture2D texture = renderTarget.GetTexture();
-            texture.Save(filename, format);
+            Texture2D texture = renderTarget;
+			using (Stream stream = File.OpenWrite(filename))
+			{
+				if (png)
+					texture.SaveAsPng(stream, texture.Width, texture.Height);
+				else
+					texture.SaveAsJpeg(stream, texture.Width, texture.Height);
+			}
 
-            Camera.AspectRatio = GraphicsDevice.Viewport.Width / (float)GraphicsDevice.Viewport.Height;
+        	Camera.AspectRatio = GraphicsDevice.Viewport.Width / (float)GraphicsDevice.Viewport.Height;
         }
+
+		private void ApplyStateBlock()
+		{
+			GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
+			GraphicsDevice.BlendState = BlendState.Opaque;
+			GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+			GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+		}
         
         protected override void Initialize()
         {
@@ -206,7 +220,7 @@ namespace LTreeDemo
 
             // Create the ground plane and an effect for it
             groundPlane = new Quad(GraphicsDevice, 10000, 10000);
-            groundEffect = new BasicEffect(GraphicsDevice, new EffectPool());
+            groundEffect = new BasicEffect(GraphicsDevice);
             groundEffect.Texture = content.Load<Texture2D>("Textures/Grass");
             groundEffect.TextureEnabled = true;
 
@@ -221,11 +235,11 @@ namespace LTreeDemo
             CameraDistance = 5000.0f;
 
             // Enable mipmaps
-            GraphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Linear;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
 
             // Store the initial renderstate
-            block = new StateBlock(GraphicsDevice);
-            block.Capture();
+            //block = new StateBlock(GraphicsDevice);
+            //block.Capture();
 
             Initialized = true;
 
@@ -234,15 +248,15 @@ namespace LTreeDemo
             Application.Idle += new EventHandler(Application_Idle);
         }
 
-        protected override void Draw()
+        protected override bool Draw()
         {
             int deltaMs = (int)(timer.Elapsed.TotalMilliseconds - lastDraw);
             if (deltaMs * FramesPerSecond < 1000)
             {
-                return;
+                return false;
             }
 
-            GameTime gameTime = new GameTime(timer.Elapsed, TimeSpan.FromMilliseconds(deltaMs), timer.Elapsed, TimeSpan.FromMilliseconds(deltaMs));
+            GameTime gameTime = new GameTime(TimeSpan.FromMilliseconds(deltaMs), TimeSpan.FromMilliseconds(deltaMs));
 
             fps.NewFrame(gameTime);
 
@@ -256,7 +270,7 @@ namespace LTreeDemo
             // Draw the ground
             if (EnableGround)
             {
-                block.Apply();
+				ApplyStateBlock();
                 groundEffect.World = groundWorld;
                 groundEffect.View = Camera.View;
                 groundEffect.Projection = Camera.Projection;
@@ -278,22 +292,24 @@ namespace LTreeDemo
 
             if (EnableTrunk)
             {
-                block.Apply(); // quick way to clean up the mess left in the render states
+				ApplyStateBlock(); // quick way to clean up the mess left in the render states
                 tree.DrawTrunk(treeWorld, Camera.View, Camera.Projection);
             }
 
             if (EnableLeaves)
             {
-                block.Apply();
+				ApplyStateBlock();
                 tree.DrawLeaves(treeWorld, Camera.View, Camera.Projection);
             }
 
             if (EnableBones)
             {
-                block.Apply();
-                GraphicsDevice.RenderState.DepthBufferEnable = false;
+				ApplyStateBlock();
+                GraphicsDevice.DepthStencilState = DepthStencilState.None;
                 tree.DrawBonesAsLines(treeWorld, Camera.View, Camera.Projection);
             }
+
+			return true;
         }
 
         protected override void Dispose(bool disposing)
