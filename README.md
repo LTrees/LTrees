@@ -5,6 +5,8 @@
 Creates natural-looking tree models for MonoGame in real-time. LTrees makes it 
 easier for MonoGame game developers to create beautiful nature scenes.
 
+### Looking for the XNA version?
+
 The original XNA version is available in the
 [v2.1](https://github.com/LTrees/LTrees/tree/v2.1) tag here on GitHub, as well
 as on the [CodePlex site](http://ltrees.codeplex.com/).
@@ -14,9 +16,14 @@ as on the [CodePlex site](http://ltrees.codeplex.com/).
 Here are some screenshots of a few generated trees. The demo application gives a 
 better impression of them, though.
 
-![](http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56673)
-
-![](http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56677)
+<p>
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56673" />
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56674" />
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56676" />
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56675" />
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56677" />
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=LTrees&DownloadId=56678" />
+</p>
 
 ## Getting Started
 
@@ -24,8 +31,8 @@ better impression of them, though.
 
 * Copy the .ltree-files and textures from the LTreeDemo project. (Note: You don't 
   need the Grass.jpg texture). Keep the same folder structure for now.
-* For each .ltree-file, change its importer to `LTree Specification` and its 
-  processor to `LTree Profile`.
+* For each .ltree-file, change its importer to "LTree Specification" and its 
+  processor to "LTree Profile".
 * Enable mipmap generation for all the textures.
 * Load a tree profile using the content manager:
   `TreeProfile profile = Content.Load<TreeProfile>("Trees/Graywood");`

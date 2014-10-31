@@ -1,4 +1,4 @@
-# User Manual for XNA Procedural LTrees
+# User Manual for LTrees
 
 ## Overview of Classes
 
