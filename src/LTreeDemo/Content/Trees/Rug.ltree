@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tree>
+    <TrunkTexture>Textures/GrayBark</TrunkTexture>
+    <LeafTexture>Textures/OakLeaf</LeafTexture>
+    
+	<Root ref="root" />
+	<Levels value="5" />
+    
+    <ConstrainUnderground lowerBound="300" />
+    <TextureHeight height="512" variation="64" />
+    
+	<Production id="root">
+		<Twist />
+		<Forward distance="128" variation="16" radius="0.86" />
+		<Pitch angle="2" variation="2" />
+		<Forward distance="128" variation="16" radius="0.86" />
+		<Pitch angle="2" variation="2" />
+		<Call ref="move" delta="0"/>
+		<Call ref="main" delta="-1"/>
+	</Production>
+
+	<!-- Moves ahead and twists and bends a few times -->
+	<Production id="move">
+		<Forward distance="128" variation="16" radius="0.86" />
+		<Twist angle="10" variation="5" />
+		<Pitch angle="5" variation="5" />
+		
+		<Forward distance="128" variation="16" radius="0.86"  />
+		<Twist angle="10" variation="5" />
+		<Pitch angle="5" variation="5" />
+		
+		<Forward distance="128" variation="16" radius="0.86"  />
+		<Twist angle="10" variation="5" />
+		<Pitch angle="5" variation="5" />
+		
+		<Forward distance="128" variation="16" radius="0.86"  />
+		<Twist angle="10" variation="5" />
+		<Pitch angle="5" variation="5" />
+		
+		<Forward distance="128" variation="16" radius="0.86"  />
+		<Twist angle="10" variation="5" />
+		<Pitch angle="5" variation="5" />
+        
+        <Bone />
+		
+		<Leaf>
+            <Color value="150,220,160" variation="30,0,0"/>
+            <Size value="256,256" variation="64,64" />
+        </Leaf>
+	</Production>
+	
+	<Production id="main">
+		<Child>
+			<Scale scale="0.9"/>
+			<Pitch angle="15" variation="15" />
+			<Call ref="move"/>
+			<Call ref="main"/>
+		</Child>
+		<Twist angle="180" variation="90" />
+		<Child>
+			<Scale scale="0.9"/>
+			<Pitch angle="30" variation="15" />
+			<Call ref="move"/>
+			<Call ref="main"/>
+		</Child>
+        <Maybe>
+            <Twist angle="180" variation="90" />
+            <Child>
+                <Scale scale="0.9"/>
+                <Pitch angle="30" variation="15" />
+                <Call ref="move"/>
+                <Call ref="main"/>
+            </Child>
+        </Maybe>
+        <Maybe>
+            <Backward distance="256" variation="128"/>
+			<Scale scale="0.8"/>
+            <ScaleRadius scale="0.5"/>
+            <Twist />
+			<Pitch angle="90" variation="30" />
+			<Call ref="move" delta="-2"/>
+			<Call ref="main" delta="-2"/>
+        </Maybe>
+	</Production>
+	
+</Tree>
