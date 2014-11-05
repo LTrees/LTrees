@@ -46,7 +46,11 @@ sampler TextureSampler = sampler_state
 
 struct VertexShaderInput
 {
-    float4 Position : POSITION0;
+#if HLSL
+    float4 Position : SV_Position;
+#else
+    float4 Position : POSITION;
+#endif
     float3 Normal : NORMAL;
     float2 TextureCoordinate : TEXCOORD0;
     int2 BoneIndex : TEXCOORD1;
@@ -54,7 +58,7 @@ struct VertexShaderInput
 
 struct VertexShaderOutput
 {
-    float4 Position : POSITION0;
+    float4 Position : POSITION;
     float2 TextureCoordinate : TEXCOORD0;
     float4 Color : COLOR0;
 };
