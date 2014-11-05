@@ -11,6 +11,8 @@
 // Hardware skinning with support for two directional lights (vertex-based).
 //----------------------------------------------------------------------------
 
+#include "Shared.fxh"
+
 #define MAXBONES 20
 
 float4x4 World;
@@ -68,8 +70,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     
     output.TextureCoordinate = input.TextureCoordinate;
     
-    float3 normal = mul(input.Normal, Bones[input.BoneIndex.x]);
-	normal = normalize(mul(normal, World));
+    float3 normal = mul(float4(input.Normal, 0), Bones[input.BoneIndex.x]).xyz;
+	normal = normalize(mul(float4(normal, 0), World).xyz);
     
     output.Color = AmbientLight;
     if (DirLight0Enabled)
@@ -97,8 +99,7 @@ technique Technique1
 {
     pass Pass1
     {
-		// XNA 4.0 no longer supports 1_1 so need to use 2_0.
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-		PixelShader = compile ps_2_0 PixelShaderFunction();
+        VertexShader = compile VS_PROFILE VertexShaderFunction();
+		PixelShader = compile PS_PROFILE PixelShaderFunction();
     }
 }

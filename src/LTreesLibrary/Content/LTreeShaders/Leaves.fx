@@ -5,6 +5,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "Shared.fxh"
 
 #define MAXBONES 20
 
@@ -120,8 +121,8 @@ technique Standard
 {
     pass Opaque
     {
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-        PixelShader = compile ps_2_0 PixelShaderFunctionOpaque();
+        VertexShader = compile VS_PROFILE VertexShaderFunction();
+        PixelShader = compile PS_PROFILE PixelShaderFunctionOpaque();
         
         AlphaBlendEnable = false;
         
@@ -132,8 +133,8 @@ technique Standard
     }
     pass BlendedEdges
     {
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-        PixelShader = compile ps_2_0 PixelShaderFunctionBlendedEdges();
+        VertexShader = compile VS_PROFILE VertexShaderFunction();
+        PixelShader = compile PS_PROFILE PixelShaderFunctionBlendedEdges();
         
         AlphaBlendEnable = true;
         SrcBlend = SrcAlpha;
@@ -149,7 +150,7 @@ technique SetNoRenderStates
 {
 	pass Pass1
 	{
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        VertexShader = compile VS_PROFILE VertexShaderFunction();
+		PixelShader = compile PS_PROFILE PixelShaderFunction();
 	}
 }

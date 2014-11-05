@@ -6,17 +6,10 @@
  */
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
 using LTreesLibrary.Trees;
-using System.Xml;
 using LTreesLibrary.Trees.Wind;
 
 namespace LTreeDemo
@@ -142,8 +135,9 @@ namespace LTreeDemo
             if (!base.IsActive)
                 return;
 
-            if (keyboard.IsKeyDown(Keys.Escape))
-                this.Exit();
+            // TODO: Can't call Exit in MonoGame v3.2.
+            //if (keyboard.IsKeyDown(Keys.Escape))
+            //    this.Exit();
 
             camerafps.Update(gameTime);
 

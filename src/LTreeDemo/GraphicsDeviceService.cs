@@ -123,7 +123,8 @@ namespace LTreeDemo
             parameters.BackBufferWidth = Math.Max(parameters.BackBufferWidth, width);
             parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height);
 
-            graphicsDevice.Reset(parameters);
+            // TODO: This method doesn't exist in MonoGame v3.2.
+            //graphicsDevice.Reset(parameters);
 
             if (DeviceReset != null)
                 DeviceReset(this, EventArgs.Empty);

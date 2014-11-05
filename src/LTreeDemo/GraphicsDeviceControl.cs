@@ -193,7 +193,9 @@ namespace LTreeDemo
                 Rectangle sourceRectangle = new Rectangle(0, 0, ClientSize.Width,
                                                                 ClientSize.Height);
 
-                GraphicsDevice.Present(sourceRectangle, null, this.Handle);
+                // TODO: Can't call Present with parameters in MonoGame v3.2.
+                //GraphicsDevice.Present(sourceRectangle, null, this.Handle);
+                GraphicsDevice.Present();
             }
             catch
             {

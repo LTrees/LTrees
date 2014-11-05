@@ -1,0 +1,28 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:../../LTreesPipeline/bin/Debug/LTreesPipeline.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin LTreeShaders/Leaves.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LTreeShaders/Leaves.fx
+
+#begin LTreeShaders/Trunk.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LTreeShaders/Trunk.fx
+

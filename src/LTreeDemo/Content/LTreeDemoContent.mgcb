@@ -1,0 +1,153 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:../../LTreesPipeline/bin/Debug/LTreesPipeline.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Fonts/Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Font.spritefont
+
+#begin Trees/Rug.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/build:Trees/Rug.ltree
+
+#begin Textures/GrayBark.JPG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/GrayBark.JPG
+
+#begin Trees/Pine.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/build:Trees/Pine.ltree
+
+#begin Textures/PineBark.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/PineBark.png
+
+#begin Textures/BirchBark.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/BirchBark.png
+
+#begin Textures/BirchLeaf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/BirchLeaf.png
+
+#begin Trees/Graywood.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/build:Trees/Graywood.ltree
+
+#begin Textures/GraywoodLeaf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/GraywoodLeaf.png
+
+#begin Trees/Willow.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/build:Trees/Willow.ltree
+
+#begin Textures/WillowLeaf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/WillowLeaf.png
+
+#begin Trees/Gardenwood.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/build:Trees/Gardenwood.ltree
+
+#begin Textures/OakLeaf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/OakLeaf.png
+
+#begin Trees/Birch.ltree
+/importer:TreeGeneratorImporter
+/processor:TreeProfileProcessor
+/processorParam:TrunkTexture=Textures/BirchTreeBark.png
+/processorParam:LeafTexture=Textures/LeafA.png
+/build:Trees/Birch.ltree
+
+#begin Textures/PineLeaf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/PineLeaf.png
+
+#begin Textures/Grass.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=True
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/Grass.jpg
+

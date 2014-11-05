@@ -26,6 +26,7 @@ packages
 *.log
 *.swp
 *.user
+*.Debug.cachefile
  
 # If you have a deploy folder
 # deploy
